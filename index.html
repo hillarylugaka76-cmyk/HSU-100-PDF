@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HSU 100 Library | Basic Life Support & Emergency Care</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --accent:#4169e1; --accent-dark:#2f4fc0; --accent-soft:#e6ecfd;
+  --bg:#faf6ec; --card:#fffdf8; --border:#e8e2d2; --text:#1d2233; --muted:#6c7285;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+button,a{font-family:inherit}
+header{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;padding:40px 20px 70px;text-align:center}
+header h1{font-size:clamp(24px,5vw,38px);font-weight:800}
+header p{margin-top:8px;opacity:.9;max-width:560px;margin-inline:auto}
+.wrap{max-width:1100px;margin:-40px auto 40px;padding:0 16px}
+.tools{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;box-shadow:0 6px 20px rgba(65,105,225,.1)}
+.search{flex:1;min-width:200px;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 14px}
+.search:focus-within{border-color:var(--accent)}
+.search input{border:none;outline:none;flex:1;font:inherit;font-size:15px;background:none}
+.search i{color:var(--muted)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{border:1px solid var(--border);background:#fff;padding:9px 16px;border-radius:999px;font-size:14px;font-weight:600;cursor:pointer;color:var(--muted)}
+.tab:hover{border-color:var(--accent);color:var(--accent)}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.section-title{margin:28px 4px 12px;font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px}
+.section-title i{color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px;transition:.15s}
+.card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 8px 20px rgba(65,105,225,.14)}
+.card-top{display:flex;gap:14px;align-items:flex-start}
+.icon{width:46px;height:46px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:20px;flex:none}
+.card h3{font-size:16px;line-height:1.35}
+.card p{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.5}
+.badge{display:inline-block;font-size:11px;font-weight:700;color:var(--accent-dark);background:var(--accent-soft);padding:3px 9px;border-radius:999px;margin-top:8px}
+.actions{display:flex;gap:10px;margin-top:auto}
+.btn{flex:1;text-align:center;text-decoration:none;border:none;cursor:pointer;padding:10px;border-radius:10px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.btn.read{background:var(--accent);color:#fff}
+.btn.read:hover{background:var(--accent-dark)}
+.btn.dl{background:var(--accent-soft);color:var(--accent-dark)}
+.btn.dl:hover{background:#d4defb}
+.empty{text-align:center;color:var(--muted);padding:50px 0;display:none}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
+/* Reader */
+.modal{position:fixed;inset:0;background:rgba(15,20,40,.7);display:none;z-index:50;padding:12px}
+.modal.open{display:flex}
+.reader{background:var(--card);border-radius:16px;width:100%;max-width:1100px;margin:auto;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.reader-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);background:#fff}
+.reader-bar h4{flex:1;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.reader-bar a,.reader-bar button{border:none;background:var(--accent-soft);color:var(--accent-dark);padding:8px 12px;border-radius:9px;font-weight:600;font-size:13px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.reader-bar .close{background:#fee4e2;color:#b42318}
+.reader iframe{flex:1;border:none;width:100%;background:#eee}
+.hint{font-size:12px;color:var(--muted);text-align:center;padding:6px;background:#fff;border-top:1px solid var(--border)}
+@media(max-width:600px){.modal{padding:0}.reader{border-radius:0}.reader-bar .txt{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <h1><i class="fa-solid fa-book-medical"></i> HSU 100 Library</h1>
+  <p>Basic Life Support and Emergency Care: read your lecture notes and past papers online, or download them.</p>
+</header>
+
+<main class="wrap">
+  <div class="tools">
+    <label class="search"><i class="fa-solid fa-magnifying-glass"></i><input id="search" type="search" placeholder="Search notes or past papers..."></label>
+    <div class="tabs" id="tabs"></div>
+  </div>
+  <div id="library"></div>
+  <div class="empty" id="empty"><i class="fa-regular fa-folder-open fa-2x"></i><p style="margin-top:10px">No files match your search.</p></div>
+</main>
+
+<footer>HSU 100: Basic Life Support and Emergency Care</footer>
+
+<div class="modal" id="modal">
+  <div class="reader">
+    <div class="reader-bar">
+      <h4 id="rTitle"></h4>
+      <a id="rOpen" target="_blank" rel="noopener"><i class="fa-solid fa-up-right-from-square"></i><span class="txt">Open in new tab</span></a>
+      <a id="rDl" download><i class="fa-solid fa-download"></i><span class="txt">Download</span></a>
+      <button class="close" id="rClose"><i class="fa-solid fa-xmark"></i><span class="txt">Close</span></button>
+    </div>
+    <iframe id="rFrame" title="PDF reader"></iframe>
+    <div class="hint">If the PDF does not show on your phone, tap "Open in new tab" or "Download".</div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
